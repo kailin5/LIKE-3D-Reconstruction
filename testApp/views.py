@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import *
+import re
 
 def index(request):
     return render(request, "index.html")
@@ -36,12 +37,22 @@ def getJS(request, path):
     with open('./js/'+path, encoding='UTF-8') as file:
         html = file.read()
         return HttpResponse(html)
+def getCSS(request, path):
+    with open('./css/'+path, encoding='UTF-8') as file:
+        html = file.read()
+        return HttpResponse(html)
 def getPath(request, path):
+    if re.match(path,r".html")!=None:
+        return render(request, "index.html")
     with open('./testApp/'+path, encoding='UTF-8') as file:
         html = file.read()
         return HttpResponse(html)
 
+def getHtml(request, path):
+    with open('./testApp/templates'+path, encoding='UTF-8') as file:
+        html = file.read()
+        return HttpResponse(html)
 def getImage(request, path):
-    with open('./static/'+path, mode='rb') as file:
+    with open('./images/'+path, mode='rb') as file:
         html = file.read()
         return HttpResponse(html, content_type="image/jpeg")

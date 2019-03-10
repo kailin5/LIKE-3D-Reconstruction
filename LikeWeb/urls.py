@@ -20,6 +20,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('static/<path:path>',views.getImage),
     path('testApp/index',views.index),
+    path('testApp/index.html',views.index),
     path('testApp/upload',views.upload),
     path('testApp/upload2',views.upload2),
     path('testApp/show',views.show),
@@ -27,5 +28,8 @@ urlpatterns = [
     path('testApp/show3',views.show2),
     path('testApp/upload_file',views.upload_file),
     path('js/<path:path>', views.getJS),
+    path('css/<path:path>', views.getCSS),
+    path('images/<path:path>', views.getImage),
     path('testApp/<path:path>', views.getPath),
+    path('/<path:path>', views.getHtml),
 ]
