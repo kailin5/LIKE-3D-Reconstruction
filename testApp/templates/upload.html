@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script
+  src="http://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+    <style>
+        .upload{
+            display: inline-block;padding: 10px;
+            background-color: brown;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 90;
+        }
+        .file{
+            width: 100px;height: 50px;opacity: 0;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" action="/testApp/upload_file" method="POST" enctype="multipart/form-data" target="ifm1">
+        <iframe id="ifm1" name="ifm1" style="display: none;"></iframe>
+        <input type="file" name="fafafa" onchange="changeUpalod();" />
+        <input type="submit" onclick="iframeSubmit();" value="Form提交"/>
+    </form>
+
+    <div id="preview"></div>
+    <script>
+        function iframeSubmit(){
+            $('#ifm1').load(function(){
+                var text = $('#ifm1').contents().find('body').text();
+                var obj = JSON.parse(text);
+
+                $('#preview').empty();
+                var imgTag = document.createElement('img');
+                imgTag.src = "/" + obj.data;     //访问的路径
+                $('#preview').append(imgTag);
+
+            })
+        }
+
+    </script>
+</body>
+</html>

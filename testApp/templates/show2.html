@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>展示三维模型2</title>
+    <script src = "/js/three.js-master/build/three.js"></script>
+    <script src = '/js/three.js-master/examples/js/loaders/DDSLoader.js'></script>
+    <script src = '/js/three.js-master/examples/js/loaders/MTLLoader.js'></script>
+    <script src = '/js/three.js-master/examples/js/loaders/OBJLoader.js'></script>
+
+</head>
+<body>
+
+
+<!-- 作为Three.js渲染器输出元素 -->
+<div id="WebGL-output">
+</div>
+    <script>
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setClearColor(new THREE.Color(0xEEEEEE, 1.0));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMapEnabled = true;
+
+        var camera = new THREE.PerspectiveCamera(45,
+          window.innerWidth / window.innerHeight, 0.1, 1000);
+        //设置摄像机的位置，并让其指向场景的中心（0,0,0）
+        camera.position.x = -30;
+        camera.position.y = 40;
+        camera.position.z = 30;
+
+
+
+        THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+        var scene = new THREE.Scene();
+
+        camera.lookAt(scene.position);
+        var mtlLoader = new THREE.MTLLoader();
+        //设置路径，也可不是设置，在load中加载完整路径也可
+            mtlLoader.setPath( '3dmodules/' );
+            mtlLoader.load( 'lxh.mtl',
+         // 资源加载成功后执行的函数
+                     //@params materials THREE.MTLLoader.MaterialCreator
+                              function( materials ) {
+                        materials.preload();
+                        var objLoader = new THREE.OBJLoader();
+                            objLoader.setMaterials( materials );
+                            objLoader.setPath( '3dmodules/' );
+                            objLoader.load( 'lxh.obj', function ( object ) {
+                                object.position.y = - 95;
+                                scene.add( object );
+
+                            });
+                        });
+            //将渲染的结果输出到指定页面元素中
+        document.getElementById("WebGL-output").appendChild(renderer.domElement);
+        render();
+
+        //渲染场景
+        function render() {
+
+            //通过requestAnimationFrame方法在特定时间间隔重新渲染场景
+            requestAnimationFrame(render);
+            //渲染场景
+            renderer.render(scene, camera);
+        }
+
+    </script>
+</body>
+</html>
